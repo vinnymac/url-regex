@@ -132,3 +132,35 @@ test('do not match URLs', t => {
 		t.false(m({exact: true}).test(x));
 	}
 });
+
+test('do not match protocols', t => {
+	const fixtures = [
+		'ftps://foo.bar/'
+	];
+
+	fixtures.forEach(el => t.false(fn({protocols: ['https']}).test(el)));
+});
+
+test('match protocols', t => {
+	const fixtures = [
+		'https://foo.bar/'
+	];
+
+	fixtures.forEach(el => t.true(fn({protocols: ['https']}).test(el)));
+});
+
+test('do not match TLDs', t => {
+	const fixtures = [
+		'ftps://foo.bar/'
+	];
+
+	fixtures.forEach(el => t.false(fn({tlds: ['com']}).test(el)));
+});
+
+test('match TLDs', t => {
+	const fixtures = [
+		'http://foo.bar/'
+	];
+
+	fixtures.forEach(el => t.true(fn({tlds: ['bar']}).test(el)));
+});
